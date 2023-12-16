@@ -1,30 +1,43 @@
 <template>
     <div>
         <div class="row">
-            <div class="card my-design" :style="calcStyle(1)" @click="chooseBack(1)"></div>
-            <div class="card my-design" :style="calcStyle(2)" @click="chooseBack(2)" ></div>
-            <div class="card my-design" :style="calcStyle(3)" @click="chooseBack(3)"></div>
+            <div class="title">Design</div>
+        </div>
+        <div class="row mt-2">
+            <div class="card my-design"  @click="chooseBack(1)">
+                <back_1 :color="backColor"></back_1>
+            </div>
+            <div class="card my-design"  @click="chooseBack(2)" >
+                <back_2 :color="backColor"></back_2>
+            </div>
+            <div class="card my-design"  @click="chooseBack(3)">
+                <back_3 :color="backColor"></back_3>
+            </div>
         </div>
         <div class="row">
+            <div class="title">Color</div>
+        </div>
+        <div class="row mt-2">
             <input type="color" v-model="backColor" />
         </div>
     </div>
 </template>
 <script>
-const designs = { 1: '1.svg', 2: '2.svg', 3: '3.svg' };
+import back_1 from './dynamicSvgs/back_1.vue';
+import back_2 from './dynamicSvgs/back_2.vue';
+import back_3 from './dynamicSvgs/back_3.vue';
+const designs = { 1: 'back_1', 2: 'back_2', 3: 'back_3' };
 export default {
     name: 'custom-back-component',
+    components:{back_1,back_2,back_3},
     data(){
         return{
             backColor:''
         }
     },
     methods: {
-        calcStyle(i) {
-            return { '--my-back': `url(backDesigns/${designs[i]})` }
-        },
         chooseBack(i){
-            this.$emit('choose-back',designs[i]);
+            this.$emit('choose-back',{'component':designs[i],color:this.backColor});
         }
     }
 }
@@ -65,5 +78,15 @@ export default {
     flex-direction: row;
     display: flex;
     justify-content: center;
+} 
+.mt-2{
+    margin-top:4px;
+
+}
+.title{
+    text-align: center;
+    font-family: "Oswald", sans-serif;
+    font-size: 1.5rem;
+    color: #f1c40f;
 }
 </style>

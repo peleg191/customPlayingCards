@@ -47,7 +47,7 @@ export default {
 }
 
 .dashboard-body {
-    height: 50vh;
+    height: 55vh;
     width: 75vh;
     background: #fefefe;
     box-shadow:

@@ -4,11 +4,12 @@
       <card-component :ratio="ratio" 
                       :current-card="currentCard"
                       :current-shape="shape"
-                      :current-back="back"></card-component>
+                      :current-back="back"
+                      :back-color="backColor"></card-component>
     </div>
     <menu-deck-component :shape="shape" @choose-card="currentCard=$event"></menu-deck-component>
     <dashboard-component @choose-shape = "shape = $event" 
-                         @choose-back="back=$event"></dashboard-component>
+                         @choose-back="chooseBack"></dashboard-component>
   </div>
   <!-- <input v-model="ratio" type="number"/> -->
 </template>
@@ -24,9 +25,16 @@ export default {
       ratio: 1.438,
       currentCard: 1,
       shape:'',
-      back:''
+      back:'',
+      backColor:''
     }
   },
+  methods:{
+    chooseBack($event){
+      this.back = $event.component;
+      this.backColor = $event.color;
+    }
+  }
 
 }
 </script>

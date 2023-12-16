@@ -6,12 +6,21 @@
               class="card">
             <div class="card__inner">
                 <div class="card__front" :style="computedFrontStyle"></div>
-                <div class="card__back" :style="computedBackStyle"></div>
+                <card-custom-back-component :back-color="backColor"
+                                            :current-back="currentBack"
+                                            :height="computedCardHeight"
+                                            :width="computedCardWidth"></card-custom-back-component>
+                <!-- <div class="card__back">
+                    <component :is="currentBack" :color="backColor"
+                                                 :height="computedCardHeight"
+                                                 :width="computedCardWidth"></component>
+                </div> -->
             </div>
         </div>
     </div>
 </template>
 <script>
+import cardCustomBackComponent from './card-custom-back-component.vue';
 export default {
     name: 'card-component',
     props:['cardHeight',
@@ -19,7 +28,9 @@ export default {
             'ratio',
             'currentCard',
             'currentShape',
-            'currentBack'],
+            'currentBack',
+            'backColor'],
+    components:{cardCustomBackComponent},
     data(){
         return{
             flipCardFlag:false
@@ -38,13 +49,19 @@ export default {
         computedCardHeight(){
             return (this.cardHeight || 292);
         },
+        computedCardHeightPixel(){
+            return this.computedCardHeight + 'px';
+        },
         computedCardWidth(){
             return this.computedCardHeight / this.computedRatio;
         },
+        computedCardWidthPixel(){
+            return this.computedCardWidth + 'px';
+        },
         computedCardStyle(){
             return {
-                '--card-height':this.computedCardHeight + 'px',
-                '--card-width': this.computedCardWidth + 'px'
+                '--card-height': this.computedCardHeightPixel,
+                '--card-width': this.computedCardWidthPixel
             }
         },
         computedFrontStyle(){
@@ -52,11 +69,11 @@ export default {
             const finalResult = `url(${result})`;
             return {'--my-front':finalResult};
         },
-        computedBackStyle(){
-            const result = `/backDesigns/${this.computedBack}`;
-            const finalResult = `url(${result})`;
-            return {'--my-back':finalResult};
-        },
+        // computedBackStyle(){
+        //     const result = `/backDesigns/${this.computedBack}`;
+        //     const finalResult = `url(${result})`;
+        //     return {'--my-back':finalResult};
+        // },
         computedCardClass(){
             return this.flipCardFlag ? 'need__hover' : ''; 
         },
@@ -103,34 +120,6 @@ h1 {
     border-radius: 0.5rem;
 }
 
-.card__back {
-    width: 100%;
-    height: 100%;
-    border-radius: 0.5rem;
-    position: absolute;
-    backface-visibility: hidden;
-}
-
-.card__back {
-    /* background-color: #fff;
-  background-image: repeating-linear-gradient(135deg, #2980b9, #2980b9 5px, transparent 6px, transparent 11px, #2980b9 12px, #2980b9 12px, transparent 13px, transparent 18px), repeating-linear-gradient(45deg, #2980b9, #2980b9 5px, transparent 6px, transparent 11px, #2980b9 12px, #2980b9 12px, transparent 13px, transparent 18px);
-  box-shadow: inset 0 0 0 10px #fff, inset 0 0 0 20px #2980b9, inset 0 0 0 22px #fff, inset 0 0 0 18px #2980b9; */
-    background: var(--my-back);
-    background-repeat: no-repeat;
-    background-size: cover;
-    backface-visibility: hidden;
-
-
-}
-
-.card__back:before {
-    content: "";
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    backface-visibility: hidden;
-}
 
 .card__front {
     transform: rotateY(-180deg);
