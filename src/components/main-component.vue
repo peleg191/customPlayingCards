@@ -7,7 +7,10 @@
                       :current-back="back"
                       :back-color="backColor"></card-component>
     </div>
-    <menu-deck-component :shape="shape" @choose-card="currentCard=$event"></menu-deck-component>
+    <menu-deck-component :shape="shape"
+                         :current-back="back" 
+                         :back-color="backColor"
+                         @choose-card="currentCard=$event"></menu-deck-component>
     <dashboard-component @choose-shape = "shape = $event" 
                          @choose-back="chooseBack"></dashboard-component>
   </div>

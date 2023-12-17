@@ -23,9 +23,9 @@
     </div>
 </template>
 <script>
-import back_1 from './dynamicSvgs/back_1.vue';
-import back_2 from './dynamicSvgs/back_2.vue';
-import back_3 from './dynamicSvgs/back_3.vue';
+import back_1 from './dynamic_svgs/back_1.vue';
+import back_2 from './dynamic_svgs/back_2.vue';
+import back_3 from './dynamic_svgs/back_3.vue';
 const designs = { 1: 'back_1', 2: 'back_2', 3: 'back_3' };
 export default {
     name: 'custom-back-component',

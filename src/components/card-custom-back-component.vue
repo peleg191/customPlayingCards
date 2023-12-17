@@ -1,19 +1,24 @@
 <template>
     <div class="card__back">
-                    <component :is="currentBack" 
+                    <component :is="finalBack" 
                                 :color="backColor"
                                 :height="height"
                                 :width="width"></component>
     </div>
 </template>
 <script>
-import back_1 from './dynamicsvgs/back_1.vue';
-import back_2 from './dynamicsvgs/back_2.vue';
-import back_3 from './dynamicsvgs/back_3.vue';
+import back_1 from './dynamic_svgs/back_1.vue';
+import back_2 from './dynamic_svgs/back_2.vue';
+import back_3 from './dynamic_svgs/back_3.vue';
 export default {
     name:'card-custom-back-component',
     props:['backColor','currentBack','height','width'],
-    components:{back_1,back_2,back_3}
+    components:{back_1,back_2,back_3},
+    computed:{
+        finalBack(){
+            return this.currentBack || 'back_1';
+        }
+    }
 }
 </script>
 <style scoped>

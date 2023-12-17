@@ -10,11 +10,6 @@
                                             :current-back="currentBack"
                                             :height="computedCardHeight"
                                             :width="computedCardWidth"></card-custom-back-component>
-                <!-- <div class="card__back">
-                    <component :is="currentBack" :color="backColor"
-                                                 :height="computedCardHeight"
-                                                 :width="computedCardWidth"></component>
-                </div> -->
             </div>
         </div>
     </div>
