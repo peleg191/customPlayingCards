@@ -2,22 +2,17 @@
     <div class="deck-container">
         <div class="deck">
             <div v-for="i in 13" :key="i">
-                <div class="card" 
-                    :style="calcStyle(i)" 
-                    @click="chooseCard(i)"
-                    :class="deckClass">
+                <div class="card" :style="calcStyle(i)" @click="chooseCard(i)" :class="deckClass">
                     <div class="card__inner">
                         <div :style="calcFrontStyle(i)" class="card__front" :class="frontClass"></div>
-                        <card-custom-back-component :back-color="backColor"
-                                                :current-back="currentBack"
-                                                :height="160"
-                                                :width="110"></card-custom-back-component>
+                        <card-custom-back-component :back-color="backColor" :current-back="currentBack" :height="160"
+                            :width="110"></card-custom-back-component>
                     </div>
                 </div>
             </div>
         </div>
-        <div class="animation-btn" @click="onClickAnimationButton">
-            <span>Play!</span>
+        <div class="animation-btn" :class="animationButtonClass" @click="onClickAnimationButton">
+            <span>Flip!</span>
         </div>
     </div>
 </template>
@@ -25,36 +20,39 @@
 import cardCustomBackComponent from './card-custom-back-component.vue';
 export default {
     name: 'menu-deck-component',
-    components:{cardCustomBackComponent},
-    props:['shape','currentBack','backColor'],
-    data(){
-        return{
-            deckClass:'',
-            frontClass:'',
-            rotationDeg:0
+    components: { cardCustomBackComponent },
+    props: ['shape', 'currentBack', 'backColor'],
+    data() {
+        return {
+            deckClass: '',
+            frontClass: '',
+            rotationDeg: 0,
+            animationButtonClass: ''
         }
     },
-    computed:{
-        computedShape(){
+    computed: {
+        computedShape() {
             return this.shape || 'clover';
         }
     },
     methods: {
         calcStyle(i) {
-            return { '--z-index': i, '--my-transition-delay': ((i*0.1)-0.1) + 's','--my-rotation':`rotateY(${this.rotationDeg}deg)` };
+            return { '--z-index': i, '--my-transition-delay': ((i * 0.1) - 0.1) + 's', '--my-rotation': `rotateY(${this.rotationDeg}deg)` };
         },
-        calcFrontStyle(i){
+        calcFrontStyle(i) {
             const result = `/${i}_${this.computedShape}.svg`;
             const finalResult = `url(${result})`;
-            return {'--my-front':finalResult};
+            return { '--my-front': finalResult };
         },
-        chooseCard(i){
-            this.$emit('choose-card',i);
+        chooseCard(i) {
+            this.$emit('choose-card', i);
         },
-        onClickAnimationButton(){
-            this.deckClass='animate-card';
+        onClickAnimationButton() {
+            this.deckClass = 'animate-card';
             this.rotationDeg += 180;
             this.frontClass = 'animate-front';
+            this.animationButtonClass = 'button-pressed';
+            setTimeout(()=>{this.animationButtonClass = ''},1000);
         }
     }
 }
@@ -78,7 +76,7 @@ export default {
     z-index: var(--z-index);
     margin: 0;
     padding: 0;
-    box-shadow: -10px 2px 10px 1px rgba(0,0,0,0.5);
+    box-shadow: -10px 2px 10px 1px rgba(0, 0, 0, 0.5);
     text-align: center;
     line-height: 192px;
     margin-left: -32px;
@@ -91,10 +89,11 @@ export default {
 
 
 }
+
 .animation-btn {
     border-radius: 50%;
-    width: 200px;
-    height: 200px;
+    width: 150px;
+    height: 150px;
     border: none;
     color: white;
     font-family: Avenir, Arial, sans-serif;
@@ -108,42 +107,45 @@ export default {
     outline: none;
     cursor: pointer;
     text-align: center;
-    user-select:none;
+    user-select: none;
     -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
-    left: 83vw;
-    top: -2vh;
+    left: 85vw;
+    top: 0vh;
     position: absolute;
 }
+
 .animation-btn span {
-  position: relative;
-  line-height: 200px;
-}
-/* fix for IE 11 (and IE8+, although the earlier versions are harder to address) stupidly moving the inner button text on click */
-.pressed {
-  padding-top: 3px;
-  transform: translateY(4px);
-  box-shadow: 0 4px 0 rgb(183, 0, 0), 0 8px 6px rgba(0, 0, 0, 0.45);
+    position: relative;
+    line-height: 150px;
 }
 
-.card:hover  {
-    transform:scale(1.25);
+/* fix for IE 11 (and IE8+, although the earlier versions are harder to address) stupidly moving the inner button text on click */
+.pressed {
+    padding-top: 2px;
+    transform: translateY(2px);
+    box-shadow: 0 1px 0 #b18e04, 0 15px 20px rgba(0, 0, 0, 0.35);
+}
+
+.card:hover {
+    transform: scale(1.25) rotateY(180deg);
     transition-duration: .5s;
-    transition-delay:0s;
+    transition-delay: 0s;
     transition-timing-function: ease;
 
 }
+
 .animate-card {
     transition-delay: var(--my-transition-delay);
     transition-duration: 1.2s;
     transform: var(--my-rotation);
-} 
+}
 
 .card__inner {
     width: 100%;
     height: 100%;
     text-align: center;
     transform-style: preserve-3d;
-    box-shadow: -10px 2px 10px 1px rgba(0,0,0,0.5);
+    box-shadow: -10px 2px 10px 1px rgba(0, 0, 0, 0.5);
     border-radius: 0.5rem;
 }
 
@@ -152,9 +154,36 @@ export default {
     background: var(--my-front);
     transform: rotateY(180deg);
     background-repeat: no-repeat;
-    background-size: cover;    
+    background-size: cover;
     height: 100%;
     width: 100%;
     position: absolute;
 }
-</style>
+
+.button-pressed {
+    animation-name: animationPressed;
+    animation-duration: .75s;
+    animation-fill-mode: forwards;
+    animation-iteration-count: 1;
+    animation-timing-function: ease-in-out;
+}
+
+@keyframes animationPressed {
+    from {
+        padding-top: 0px;
+        transform: translateY(0px);
+        box-shadow: 0 8px 0 #b18e04, 0 15px 20px rgba(0, 0, 0, 0.35);
+    }
+
+    50% {
+        padding-top: 2px;
+        transform: translateY(2px);
+        box-shadow: 0 1px 0 #b18e04, 0 15px 20px rgba(0, 0, 0, 0.35);
+    }
+
+    to {
+        padding-top: 0px;
+        transform: translateY(0px);
+        box-shadow: 0 8px 0 #b18e04, 0 15px 20px rgba(0, 0, 0, 0.35);
+    }
+}</style>
