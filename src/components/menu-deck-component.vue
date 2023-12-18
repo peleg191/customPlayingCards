@@ -37,7 +37,9 @@ export default {
     },
     methods: {
         calcStyle(i) {
-            return { '--z-index': i, '--my-transition-delay': ((i * 0.1) - 0.1) + 's', '--my-rotation': `rotateY(${this.rotationDeg}deg)` };
+            return { '--z-index': i, '--my-transition-delay': ((i * 0.1) - 0.1) + 's', 
+                    '--my-rotation': `rotateY(${this.rotationDeg}deg)`,
+                    '--my-hover-transition':`scale(1.25) rotateY(${360-parseInt(this.rotationDeg)}deg)` };
         },
         calcFrontStyle(i) {
             const result = `/${i}_${this.computedShape}.svg`;
@@ -81,7 +83,7 @@ export default {
     line-height: 192px;
     margin-left: -32px;
     background: white;
-    transition: transform .5s ease-in-out;
+    transition: transform .15s ease-in-out;
     transform-style: preserve-3d;
     perspective: 1000px;
     display: block;
@@ -127,9 +129,8 @@ export default {
 }
 
 .card:hover {
-    transform: scale(1.25) rotateY(180deg);
+    transform: var(--my-hover-transition);
     transition-duration: 0.25s;
-    transition-delay: 0s;
     transition-timing-function:ease-in-out;
 
 }
