@@ -26,7 +26,7 @@ export default {
         return {
             deckClass: '',
             frontClass: '',
-            rotationDeg: 0,
+            rotationDeg: 180,
             animationButtonClass: ''
         }
     },
@@ -128,9 +128,9 @@ export default {
 
 .card:hover {
     transform: scale(1.25) rotateY(180deg);
-    transition-duration: .5s;
+    transition-duration: 0.25s;
     transition-delay: 0s;
-    transition-timing-function: ease;
+    transition-timing-function:ease-in-out;
 
 }
 
